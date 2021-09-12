@@ -177,14 +177,14 @@ class Predator extends LivingCreature {
     }
 
     move() {
-        let emptyCells = this.chooseCell(0, 1)
+        let emptyCells = this.chooseCell(0)
         let newCell = random(emptyCells)
         if (newCell) {
             var newX = newCell[0];
             var newY = newCell[1];
-            matrix[this.y][this.x] = this.char
-                //matrix[this.y][this.x] = 0
-            this.char = matrix[newY][newX]
+            //matrix[this.y][this.x] = this.char
+            matrix[this.y][this.x] = 0
+                // this.char = matrix[newY][newX]
             matrix[newY][newX] = this.index
             this.x = newX
             this.y = newY
@@ -435,14 +435,20 @@ class Bomber extends LivingCreature {
                             case 3:
                                 all[j].die(predatorArr);
                                 break;
+                            case 5:
+                                if (this.char == 1)
+                                    all[j].die(grassArr);
+                                break;
                         }
 
                     }
                 }
             }
 
+            this.char = 0
             this.energy = 0
             matrix[this.y][this.x] = 0
+
             let emptyCells = this.findCells(0, 1)
             let randomCell = random(emptyCells)
             if (randomCell) {
