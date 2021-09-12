@@ -1,5 +1,5 @@
 var matrix = [];
-let length = 25;
+let length = 30;
 var side = 22.5;
 
 var grassArr = [];

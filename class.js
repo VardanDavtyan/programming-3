@@ -207,14 +207,14 @@ class Predator extends LivingCreature {
             matrix[newY][newX] = this.index
             this.x = newX
             this.y = newY
-            this.energy += 1.5
+            this.energy += 2
             for (let i in grassEaterArr) {
                 if (newX == grassEaterArr[i].x && newY == grassEaterArr[i].y) {
                     grassEaterArr.splice(i, 1);
                     break;
                 }
             }
-            super.mul([0, 1], 12)
+            super.mul([0, 1], 10)
         } else {
             this.move()
         }
