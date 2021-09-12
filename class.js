@@ -1,18 +1,19 @@
 class LivingCreature {
 
-    constructor(x, y, index) {
+    constructor(x, y, index, energy = 1) {
         this.x = x;
         this.y = y;
         this.index = index;
+        this.energy = energy;
     }
 
-    chooseCell(character) {
+    chooseCell(...characters) {
         var found = [];
         for (var i in this.directions) {
             var x = this.directions[i][0];
             var y = this.directions[i][1];
             if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == character) {
+                if (characters.includes(matrix[y][x])) {
                     found.push(this.directions[i]);
                 }
             }
@@ -31,6 +32,30 @@ class LivingCreature {
             [this.x, this.y + 1],
             [this.x + 1, this.y + 1]
         ];
+    }
+
+    mul(emptyCellIndex, maxEnergy) {
+        var emptyCells = this.chooseCell(emptyCellIndex);
+        var newCell = random(emptyCells);
+
+        if (newCell && this.energy >= maxEnergy) {
+            var newX = newCell[0];
+            var newY = newCell[1];
+            matrix[newY][newX] = this.index;
+
+            switch (this.index) {
+                case 2:
+                    var newGrassEater = new GrassEater(newX, newY, this.index);
+                    grassEaterArr.push(newGrassEater);
+                    break;
+                case 3:
+                    var newPredator = new Predator(newX, newY, this.index);
+                    predatorArr.push(newPredator);
+                    break;
+
+            }
+
+        }
     }
 
     die(array, defaultState = 0) {
@@ -85,14 +110,12 @@ class Grass extends LivingCreature {
 class GrassEater extends LivingCreature {
 
     constructor(x, y, index) {
-        super(x, y, index)
-        this.energy = 8;
-        this.directions = [];
+        super(x, y, index, 8)
     }
 
-    chooseCell(character) {
+    chooseCell(...character) {
         super.getNewCoordinates()
-        return super.chooseCell(character)
+        return super.chooseCell(...character)
     }
 
     move() {
@@ -114,20 +137,6 @@ class GrassEater extends LivingCreature {
         }
     }
 
-    mul() {
-        var emptyCells = this.chooseCell(0);
-        var newCell = random(emptyCells);
-
-        if (newCell && this.energy >= 12) {
-            var newX = newCell[0];
-            var newY = newCell[1];
-            matrix[newY][newX] = this.index;
-
-            var newGrassEater = new GrassEater(newX, newY, this.index);
-            grassEaterArr.push(newGrassEater);
-        }
-    }
-
     eat() {
         let emptyCells = this.chooseCell(1)
         let newCell = random(emptyCells)
@@ -145,7 +154,7 @@ class GrassEater extends LivingCreature {
                     break;
                 }
             }
-            this.mul()
+            super.mul(0, 12)
         } else {
             this.move()
         }
@@ -158,19 +167,17 @@ class GrassEater extends LivingCreature {
 class Predator extends LivingCreature {
 
     constructor(x, y, index) {
-        super(x, y, index)
-        this.energy = 8;
-        this.directions = [];
+        super(x, y, index, 8)
         this.char = 0
     }
 
-    chooseCell(character) {
+    chooseCell(...character) {
         super.getNewCoordinates()
-        return super.chooseCell(character)
+        return super.chooseCell(...character)
     }
 
     move() {
-        let emptyCells = this.chooseCell(0).concat(this.chooseCell(1))
+        let emptyCells = this.chooseCell(0, 1)
         let newCell = random(emptyCells)
         if (newCell) {
             var newX = newCell[0];
@@ -187,20 +194,6 @@ class Predator extends LivingCreature {
         }
         if (this.energy <= 0) {
             super.die(predatorArr, this.char)
-        }
-    }
-
-    mul() {
-        var emptyCells = this.chooseCell(0);
-        var newCell = random(emptyCells);
-
-        if (newCell && this.energy >= 12) {
-            var newX = newCell[0];
-            var newY = newCell[1];
-            matrix[newY][newX] = this.index;
-
-            var newPredator = new Predator(newX, newY, this.index);
-            predatorArr.push(newPredator);
         }
     }
 
@@ -221,7 +214,7 @@ class Predator extends LivingCreature {
                     break;
                 }
             }
-            this.mul()
+            super.mul([0, 1], 12)
         } else {
             this.move()
         }
@@ -235,17 +228,16 @@ class Switcher extends LivingCreature {
     constructor(x, y, index) {
         super(x, y, index)
         this.multiply = 0;
-        this.directions = [];
         this.char = 0
     }
 
-    chooseCell(character) {
+    chooseCell(...character) {
         super.getNewCoordinates()
-        return super.chooseCell(character)
+        return super.chooseCell(...character)
     }
 
     move() {
-        let emptyCells = this.chooseCell(0).concat(this.chooseCell(1))
+        let emptyCells = this.chooseCell(0, 1)
         let newCell = random(emptyCells)
         if (newCell) {
             var newX = newCell[0];
@@ -264,7 +256,7 @@ class Switcher extends LivingCreature {
 
     generate() {
 
-        let emptyCells = this.chooseCell(0).concat(this.chooseCell(1))
+        let emptyCells = this.chooseCell(0, 1)
         let randomCell = random(emptyCells)
 
         if (randomCell) {
@@ -300,9 +292,7 @@ class Switcher extends LivingCreature {
 class Bomber extends LivingCreature {
 
     constructor(x, y, index, energy) {
-        super(x, y, index)
-        this.energy = energy
-        this.directions = [];
+        super(x, y, index, energy)
         this.char = 0
     }
 
@@ -372,9 +362,9 @@ class Bomber extends LivingCreature {
         ];
     }
 
-    chooseCell(character) {
+    chooseCell(...character) {
         super.getNewCoordinates()
-        return super.chooseCell(character)
+        return super.chooseCell(...character)
     }
 
     chooseRadiusCoordinates() {
@@ -403,7 +393,7 @@ class Bomber extends LivingCreature {
     }
 
     move() {
-        let emptyCells = this.chooseCell(0).concat(this.chooseCell(1))
+        let emptyCells = this.chooseCell(0, 1)
         let newCell = random(emptyCells)
         if (newCell) {
             var newX = newCell[0];
