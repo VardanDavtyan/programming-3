@@ -14,14 +14,14 @@ function setup() {
 
     for (var y = 0; y < length; y++)
         matrix[y] = [];
-    for (var i = 0; i < 1; i++)
+    for (var i = 0; i < switcherLength; i++)
         matrix[Math.floor(Math.random() * length)][Math.floor(Math.random() * length)] = 4
-        //for (var i = 0; i < bomberLength; i++)
-        //    matrix[Math.floor(Math.random() * length)][Math.floor(Math.random() * length)] = 5
+    for (var i = 0; i < bomberLength; i++)
+        matrix[Math.floor(Math.random() * length)][Math.floor(Math.random() * length)] = 5
     for (var y = 0; y < length; y++) {
         for (var x = 0; x < length; x++) {
             if (matrix[y][x] != 4 && matrix[y][x] != 5) {
-                matrix[y][x] = 0 //random([0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3]) //random([0, 0, 1, 1, 1, 2, 2, 3, 2, 0])
+                matrix[y][x] = random([0, 0, 1, 1, 1, 2, 2, 3, 2, 0])
             }
         }
     }

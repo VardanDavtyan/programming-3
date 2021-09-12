@@ -170,14 +170,14 @@ class Predator extends LivingCreature {
     }
 
     move() {
-        let emptyCells = this.chooseCell(0) //.concat(this.chooseCell(1))
+        let emptyCells = this.chooseCell(0).concat(this.chooseCell(1))
         let newCell = random(emptyCells)
         if (newCell) {
             var newX = newCell[0];
             var newY = newCell[1];
-            //matrix[this.y][this.x] = this.char
-            matrix[this.y][this.x] = 0
-                //this.char = matrix[newY][newX]
+            matrix[this.y][this.x] = this.char
+                //matrix[this.y][this.x] = 0
+            this.char = matrix[newY][newX]
             matrix[newY][newX] = this.index
             this.x = newX
             this.y = newY
@@ -420,16 +420,6 @@ class Bomber extends LivingCreature {
         this.explosion()
     }
 
-    die() {
-        for (var i in grassEaterArr) {
-            if (this.x == grassEaterArr[i].x && this.y == grassEaterArr[i].y) {
-                grassEaterArr.splice(i, 1);
-                matrix[this.y][this.x] = 0
-                break;
-            }
-        }
-    }
-
     explosion() {
 
         let all = [];
@@ -445,7 +435,18 @@ class Bomber extends LivingCreature {
                 let posY = radiusCoords[i][1]
                 for (let j in all) {
                     if (posX == all[j].x && posY == all[j].y) {
-                        all[j].die()
+                        switch (all[j].index) {
+                            case 1:
+                                all[j].die(grassArr);
+                                break;
+                            case 2:
+                                all[j].die(grassEaterArr);
+                                break;
+                            case 3:
+                                all[j].die(predatorArr);
+                                break;
+                        }
+
                     }
                 }
             }
