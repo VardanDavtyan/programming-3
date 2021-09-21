@@ -147,6 +147,7 @@ class Bomber extends LivingCreature {
             let emptyCells = this.findCells(0, 1)
             let randomCell = random(emptyCells)
             if (randomCell) {
+                this.char = 0
                 this.x = randomCell[0]
                 this.y = randomCell[1]
                 matrix[this.y][this.x] = this.index

@@ -40,23 +40,23 @@ class Switcher extends LivingCreature {
             var X = randomCell[0]
             var Y = randomCell[1]
 
-            let randomCharacter = random([1, 2, 3])
+            let randomCharacter = random([1, 2, 3, 6])
             switch (randomCharacter) {
                 case 1:
                     var newGrass = new Grass(X, Y, 1)
                     grassArr.push(newGrass)
-                    matrix[Y][X] = 1
                     break;
                 case 2:
                     var newGrassEater = new GrassEater(X, Y, 2)
                     grassEaterArr.push(newGrassEater)
-                    matrix[Y][X] = 2
                     break;
                 case 3:
                     var newPredator = new Predator(X, Y, 3)
                     predatorArr.push(newPredator)
-                    matrix[Y][X] = 3
                     break;
+                case 6:
+                    var newMutant = new Mutant(X, Y, 6, random(10, 30))
+                    mutantArr.push(newMutant)
             }
             this.multiply = 0
         }

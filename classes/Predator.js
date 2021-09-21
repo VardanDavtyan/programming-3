@@ -5,6 +5,10 @@ class Predator extends LivingCreature {
         this.energy = 8
         this.char = 0
         this.directions = []
+
+        this.energyMoveModifier = 1
+        this.energyEatGrassEaterModifier = 2
+        this.maxEnergyToMultiply = 12
     }
 
     chooseCell(...character) {
@@ -19,14 +23,14 @@ class Predator extends LivingCreature {
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[this.y][this.x] = this.char
-            //matrix[this.y][this.x] = 0
+                //matrix[this.y][this.x] = 0
             this.char = matrix[newY][newX]
             matrix[newY][newX] = this.index
             this.x = newX
             this.y = newY
-            this.energy -= 1
+            this.energy -= this.energyMoveModifier
         } else {
-            this.energy -= 1
+            this.energy -= this.energyMoveModifier
         }
         if (this.energy <= 0) {
             this.die()
@@ -37,7 +41,7 @@ class Predator extends LivingCreature {
         var emptyCells = this.chooseCell(0);
         var newCell = random(emptyCells);
 
-        if (newCell && this.energy >= 12) {
+        if (newCell && this.energy >= this.maxEnergyToMultiply) {
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[newY][newX] = this.index;
@@ -58,7 +62,7 @@ class Predator extends LivingCreature {
             matrix[newY][newX] = this.index
             this.x = newX
             this.y = newY
-            this.energy += 2
+            this.energy += this.energyEatGrassEaterModifier
             for (let i in grassEaterArr) {
                 if (newX == grassEaterArr[i].x && newY == grassEaterArr[i].y) {
                     grassEaterArr.splice(i, 1);

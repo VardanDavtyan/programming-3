@@ -13,14 +13,17 @@ class Grass extends LivingCreature {
             [this.x, this.y + 1],
             [this.x + 1, this.y + 1],
         ];
+
+        this.multiplyModifier = 1
+        this.maxMultiply = 8
     }
 
     mul() {
-        this.multiply++;
+        this.multiply += this.multiplyModifier;
         var emptyCells = super.chooseCell(0);
         var newCell = random(emptyCells);
 
-        if (newCell && this.multiply >= 8) {
+        if (newCell && this.multiply >= this.maxMultiply) {
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[newY][newX] = this.index;
