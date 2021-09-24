@@ -1,14 +1,14 @@
 class Predator extends LivingCreature {
 
-    constructor(x, y, index) {
+    constructor(x, y, index, energyMoveModifier = 1, energyEatGrassEaterModifier = 2, maxEnergyToMultiply = 12) {
         super(x, y, index)
         this.energy = 8
         this.char = 0
         this.directions = []
 
-        this.energyMoveModifier = 1
-        this.energyEatGrassEaterModifier = 2
-        this.maxEnergyToMultiply = 12
+        this.energyMoveModifier = energyMoveModifier
+        this.energyEatGrassEaterModifier = energyEatGrassEaterModifier
+        this.maxEnergyToMultiply = maxEnergyToMultiply
     }
 
     chooseCell(...character) {
@@ -17,14 +17,14 @@ class Predator extends LivingCreature {
     }
 
     move() {
-        let emptyCells = this.chooseCell(0, 1)
+        let emptyCells = this.chooseCell(0 /*, 1 */ )
         let newCell = random(emptyCells)
         if (newCell) {
             var newX = newCell[0];
             var newY = newCell[1];
-            matrix[this.y][this.x] = this.char
-                //matrix[this.y][this.x] = 0
-            this.char = matrix[newY][newX]
+            //matrix[this.y][this.x] = this.char
+            matrix[this.y][this.x] = 0
+                //this.char = matrix[newY][newX]
             matrix[newY][newX] = this.index
             this.x = newX
             this.y = newY
@@ -46,7 +46,7 @@ class Predator extends LivingCreature {
             var newY = newCell[1];
             matrix[newY][newX] = this.index;
 
-            var newPredator = new Predator(newX, newY, this.index);
+            var newPredator = new Predator(newX, newY, this.index, this.energyMoveModifier, this.energyEatGrassEaterModifier, this.maxEnergyToMultiply);
             predatorArr.push(newPredator);
 
         }
@@ -58,7 +58,7 @@ class Predator extends LivingCreature {
         if (newCell) {
             var newX = newCell[0];
             var newY = newCell[1];
-            matrix[this.y][this.x] = 0
+            matrix[this.y][this.x] = 0 //this.char
             matrix[newY][newX] = this.index
             this.x = newX
             this.y = newY
@@ -78,8 +78,8 @@ class Predator extends LivingCreature {
     die() {
         for (var i in predatorArr) {
             if (this.x == predatorArr[i].x && this.y == predatorArr[i].y) {
+                matrix[this.y][this.x] = 0 //this.char
                 predatorArr.splice(i, 1);
-                matrix[this.y][this.x] = this.char
                 break;
             }
         }

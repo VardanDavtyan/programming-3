@@ -130,17 +130,18 @@ class Mutant extends LivingCreature {
         this.randomAxisChange = 0
     }
 
-    constructor(x, y, index, maxRandomAxisValue = 20) {
+    constructor(x, y, index, maxRandomAxisValue = 20, energyMoveModifier = 1, energyEatGrassModifier = 2, energyEatPredatorModifier = 5, maxEnergyToMultiply = 30) {
         super(x, y, index)
         this.energy = 25
         this.directions = []
         this.maxRandomAxisValue = maxRandomAxisValue
         this.setRandomAxis()
 
-        this.energyMoveModifier = 1
-        this.energyEatGrassModifier = 2
-        this.energyEatPredatorModifier = 5
-        this.maxEnergyToMultiply = 30
+        this.energyMoveModifier = energyMoveModifier
+        this.energyEatGrassModifier = energyEatGrassModifier
+        this.energyEatPredatorModifier = energyEatPredatorModifier
+        this.maxEnergyToMultiply = maxEnergyToMultiply
+
     }
 
     chooseCell(...character) {
@@ -174,7 +175,7 @@ class Mutant extends LivingCreature {
             var newY = newCell[1];
             matrix[newY][newX] = this.index;
 
-            var newMutant = new Mutant(newX, newY, this.index, random(10, 30));
+            var newMutant = new Mutant(newX, newY, this.index, random(10, 30), this.energyMoveModifier, this.energyEatGrassModifier, this.energyEatPredatorModifier, this.maxEnergyToMultiply);
             mutantArr.push(newMutant);
         }
     }
@@ -195,7 +196,7 @@ class Mutant extends LivingCreature {
                 this.energy += this.energyEatGrassModifier
                 for (let i in grassArr) {
                     if (newX == grassArr[i].x && newY == grassArr[i].y) {
-                        grassArr.splice(i, 1);
+                        grassArr[i].die();
                         break;
                     }
                 }
@@ -225,8 +226,8 @@ class Mutant extends LivingCreature {
     die() {
         for (var i in mutantArr) {
             if (this.x == mutantArr[i].x && this.y == mutantArr[i].y) {
-                mutantArr.splice(i, 1);
                 matrix[this.y][this.x] = 0
+                mutantArr.splice(i, 1);
                 break;
             }
         }

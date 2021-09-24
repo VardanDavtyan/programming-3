@@ -1,10 +1,12 @@
 class Bomber extends LivingCreature {
 
-    constructor(x, y, index, energy) {
+    constructor(x, y, index, energy, minEnergyToExplosion, maxEnergyToExplosion) {
         super(x, y, index)
         this.energy = energy
         this.directions = []
         this.char = 0
+        this.minEnergyToExplosion = minEnergyToExplosion
+        this.maxEnergyToExplosion = maxEnergyToExplosion
     }
 
     getRadius() {
@@ -123,12 +125,13 @@ class Bomber extends LivingCreature {
 
     explosion() {
 
-        let all = [];
-        all = all.concat(grassArr);
-        all = all.concat(grassEaterArr);
-        all = all.concat(predatorArr);
+        if (this.energy >= random(this.minEnergyToExplosion, this.maxEnergyToExplosion)) {
 
-        if (this.energy >= (12 + Math.floor(Math.random() * 5))) {
+            let all = [];
+            all = all.concat(grassArr);
+            all = all.concat(grassEaterArr);
+            all = all.concat(predatorArr);
+            all = all.concat(mutantArr)
 
             var radiusCoords = this.chooseRadiusCoordinates()
             for (let i = 0; i < radiusCoords.length; i++) {
@@ -147,9 +150,11 @@ class Bomber extends LivingCreature {
             let emptyCells = this.findCells(0, 1)
             let randomCell = random(emptyCells)
             if (randomCell) {
-                this.char = 0
-                this.x = randomCell[0]
-                this.y = randomCell[1]
+                let newX = randomCell[0]
+                let newY = randomCell[1]
+                this.char = matrix[newY][newX]
+                this.x = newX
+                this.y = newY
                 matrix[this.y][this.x] = this.index
             }
         }

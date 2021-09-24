@@ -1,14 +1,14 @@
 class GrassEater extends LivingCreature {
 
-    constructor(x, y, index) {
+    constructor(x, y, index, energyMoveModifier = 1, energyEatGrassModifier = 1, energyEatMutantModifier = 3, maxEnergyToMultiply = 12) {
         super(x, y, index)
         this.energy = 8
         this.directions = []
 
-        this.energyMoveModifier = 1
-        this.energyEatGrassModifier = 1
-        this.energyEatMutantModifier = 3
-        this.maxEnergyToMultiply = 12
+        this.energyMoveModifier = energyMoveModifier
+        this.energyEatGrassModifier = energyEatGrassModifier
+        this.energyEatMutantModifier = energyEatMutantModifier
+        this.maxEnergyToMultiply = maxEnergyToMultiply
     }
 
     chooseCell(...character) {
@@ -44,7 +44,7 @@ class GrassEater extends LivingCreature {
             var newY = newCell[1];
             matrix[newY][newX] = this.index;
 
-            var newGrassEater = new GrassEater(newX, newY, this.index);
+            var newGrassEater = new GrassEater(newX, newY, this.index, this.energyMoveModifier, this.energyEatGrassModifier, this.energyEatMutantModifier, this.maxEnergyToMultiply);
             grassEaterArr.push(newGrassEater);
         }
     }
@@ -85,8 +85,8 @@ class GrassEater extends LivingCreature {
     die() {
         for (var i in grassEaterArr) {
             if (this.x == grassEaterArr[i].x && this.y == grassEaterArr[i].y) {
-                grassEaterArr.splice(i, 1);
                 matrix[this.y][this.x] = 0
+                grassEaterArr.splice(i, 1);
                 break;
             }
         }
