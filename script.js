@@ -1,6 +1,6 @@
 let matrix = [];
-let length = 60;
-let side = 17.5;
+let length = 25//35;
+let side = 40//27.5;
 
 let grassArr = [];
 let grassEaterArr = [];
@@ -30,8 +30,6 @@ function getStatistics() {
         bomber: bomberArr.length
     }
 }
-
-
 
 
 
@@ -260,16 +258,21 @@ function setWeather(selectValue) {
     }
 }
 
-function removeFromMatrix(characterArr) {
-    for (let i in characterArr) {
-        characterArr[i].die();
+function removeFromMatrix(cellIndex, characterArr) {
+    for (let y = 0; y < matrix.length; y++) {
+        for (let x = 0; x < matrix[y].length; x++) {
+            if (matrix[y][x] == cellIndex) {
+                characterArr.shift()
+                matrix[y][x] = 0
+            }
+        }
     }
 }
 
-document.getElementById("grassRemoveButton").onclick = () => removeFromMatrix(grassArr)
-document.getElementById("grassEaterRemoveButton").onclick = () => removeFromMatrix(grassEaterArr)
-document.getElementById("predatorRemoveButton").onclick = () => removeFromMatrix(predatorArr)
-document.getElementById("mutantRemoveButton").onclick = () => removeFromMatrix(mutantArr)
+document.getElementById("grassRemoveButton").onclick = () => removeFromMatrix(1, grassArr)
+document.getElementById("grassEaterRemoveButton").onclick = () => removeFromMatrix(2, grassEaterArr)
+document.getElementById("predatorRemoveButton").onclick = () => removeFromMatrix(3, predatorArr)
+document.getElementById("mutantRemoveButton").onclick = () => removeFromMatrix(6, mutantArr)
 
 
 let selectValue = document.getElementById("weather-subject");
@@ -307,6 +310,7 @@ function setup() {
 
     let canvas = createCanvas(matrix[0].length * side, matrix.length * side);
     canvas.parent("main-game")
+    noStroke()
 
     //cells implementation
     for (let y = 0; y < matrix.length; y++) {
@@ -349,41 +353,52 @@ function setup() {
     }
 }
 
+let grassImg, grassEaterImg, predatorImg, switcherImg, bomberImg, mutantImg
+function preload() {
+    grassImg = loadImage('./images/grass.png')
+    grassEaterImg = loadImage('./images/grassEater.png')
+    predatorImg = loadImage('./images/predator.png')
+    switcherImg = loadImage('./images/switcher.png')
+    bomberImg = loadImage('./images/bomber.png')
+    mutantImg = loadImage('./images/mutant.png')
+}
+
 function draw() {
 
+    background(113, 196, 208)
     for (let y = 0; y < matrix.length; y++) {
         for (let x = 0; x < matrix[y].length; x++) {
             switch (matrix[y][x]) {
                 case 0:
-                    noStroke()
                     fill(...cellColors.empty);
+                    rect(x * side, y * side, side, side);
                     break;
                 case 1:
-                    stroke(0)
                     fill(...cellColors.grass);
+                    image(grassImg, x * side, y * side, side, side)
                     break;
                 case 2:
-                    stroke(0)
                     fill(...cellColors.grassEater);
+                    image(grassEaterImg, x * side, y * side, side, side)
                     break;
                 case 3:
-                    stroke(0)
                     fill(...cellColors.predator)
+                    image(predatorImg, x * side, y * side, side, side)
                     break;
                 case 4:
-                    stroke(0)
                     fill(...cellColors.switcher)
+                    image(switcherImg, x * side, y * side, side, side)
                     break;
                 case 5:
-                    stroke(0)
                     fill(...cellColors.bomber)
+                    image(bomberImg, x * side, y * side, side, side)
                     break;
                 case 6:
-                    stroke(0)
                     fill(...cellColors.mutant)
+                    image(mutantImg, x * side, y * side, side, side)
                     break;
             }
-            rect(x * side, y * side, side, side);
+            
         }
     }
 

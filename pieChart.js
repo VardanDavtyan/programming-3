@@ -59,6 +59,17 @@ function renderDiagram(data) {
         .attr("stroke", "black")
         .style("stroke-width", "2px")
         .style("opacity", 0.7)
+
+        svg.append("text")
+    	.attr("transform", function(d) {
+        var _d = arc.centroid(d);
+        _d[0] *= 1.5;	//multiply by a constant factor
+        _d[1] *= 1.5;	//multiply by a constant factor
+        return "translate(" + _d + ")";
+      })
+      .attr("dy", ".50em")
+      .style("text-anchor", "middle")
+      .text(d => "");
 }
 
 function renderData(data) {
