@@ -1,6 +1,6 @@
 let matrix = [];
-let length = 25//35;
-let side = 40//27.5;
+let length = 30 //35;
+let side = 35 //27.5;
 
 let grassArr = [];
 let grassEaterArr = [];
@@ -9,7 +9,7 @@ let switcherArr = [];
 let bomberArr = [];
 let mutantArr = []
 
-let switcherLength = 10 + Math.floor(Math.random() * 6)
+let switcherLength = 7 + Math.floor(Math.random() * 6)
 let bomberLength = 3 + Math.floor(Math.random() * 2)
 
 
@@ -36,7 +36,29 @@ function getStatistics() {
 
 
 let cellColors = {}
+let cellImages = {}
 let cellSettings = {}
+
+let grassImages = {}
+
+function preload() {
+
+    grassImages = {
+        winter: loadImage('./images/grass-winter.png'),
+        spring: loadImage('./images/grass-spring.png'),
+        summer: loadImage('./images/grass.png'),
+        autumn: loadImage('./images/grass-autumn.png')
+    }
+
+    cellImages = {
+        grass: grassImages.summer,
+        grassEater: loadImage('./images/grassEater.png'),
+        predator: loadImage('./images/predator.png'),
+        switcher: loadImage('./images/switcher.png'),
+        bomber: loadImage('./images/bomber.png'),
+        mutant: loadImage('./images/mutant.png')
+    }
+}
 
 //events
 function setWeather(selectValue) {
@@ -51,6 +73,8 @@ function setWeather(selectValue) {
                 switcher: [0, 232, 255],
                 bomber: [103, 103, 103]
             }
+
+            cellImages.grass = grassImages.winter;
 
             cellSettings = {
                 grass: {
@@ -97,6 +121,8 @@ function setWeather(selectValue) {
                 bomber: [62, 62, 62]
             }
 
+            cellImages.grass = grassImages.spring;
+
             cellSettings = {
                 grass: {
                     multiplyModifier: 1,
@@ -140,6 +166,8 @@ function setWeather(selectValue) {
                 switcher: [0, 58, 104],
                 bomber: [19, 19, 19]
             }
+
+            cellImages.grass = grassImages.summer;
 
             cellSettings = {
                 grass: {
@@ -185,6 +213,8 @@ function setWeather(selectValue) {
                 switcher: [0, 75, 127],
                 bomber: [50, 50, 50]
             }
+
+            cellImages.grass = grassImages.autumn;
 
             cellSettings = {
                 grass: {
@@ -288,9 +318,6 @@ frameRateBar.onchange = () => {
 
 
 
-
-
-
 function setup() {
 
     //elements generation
@@ -353,19 +380,9 @@ function setup() {
     }
 }
 
-let grassImg, grassEaterImg, predatorImg, switcherImg, bomberImg, mutantImg
-function preload() {
-    grassImg = loadImage('./images/grass.png')
-    grassEaterImg = loadImage('./images/grassEater.png')
-    predatorImg = loadImage('./images/predator.png')
-    switcherImg = loadImage('./images/switcher.png')
-    bomberImg = loadImage('./images/bomber.png')
-    mutantImg = loadImage('./images/mutant.png')
-}
-
 function draw() {
 
-    background(113, 196, 208)
+    background(...cellColors.empty)
     for (let y = 0; y < matrix.length; y++) {
         for (let x = 0; x < matrix[y].length; x++) {
             switch (matrix[y][x]) {
@@ -375,30 +392,30 @@ function draw() {
                     break;
                 case 1:
                     fill(...cellColors.grass);
-                    image(grassImg, x * side, y * side, side, side)
+                    image(cellImages.grass, x * side, y * side, side, side)
                     break;
                 case 2:
                     fill(...cellColors.grassEater);
-                    image(grassEaterImg, x * side, y * side, side, side)
+                    image(cellImages.grassEater, x * side, y * side, side, side)
                     break;
                 case 3:
                     fill(...cellColors.predator)
-                    image(predatorImg, x * side, y * side, side, side)
+                    image(cellImages.predator, x * side, y * side, side, side)
                     break;
                 case 4:
                     fill(...cellColors.switcher)
-                    image(switcherImg, x * side, y * side, side, side)
+                    image(cellImages.switcher, x * side, y * side, side, side)
                     break;
                 case 5:
                     fill(...cellColors.bomber)
-                    image(bomberImg, x * side, y * side, side, side)
+                    image(cellImages.bomber, x * side, y * side, side, side)
                     break;
                 case 6:
                     fill(...cellColors.mutant)
-                    image(mutantImg, x * side, y * side, side, side)
+                    image(cellImages.mutant, x * side, y * side, side, side)
                     break;
             }
-            
+
         }
     }
 

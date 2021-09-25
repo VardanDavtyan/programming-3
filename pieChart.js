@@ -60,16 +60,22 @@ function renderDiagram(data) {
         .style("stroke-width", "2px")
         .style("opacity", 0.7)
 
-        svg.append("text")
-    	.attr("transform", function(d) {
-        var _d = arc.centroid(d);
-        _d[0] *= 1.5;	//multiply by a constant factor
-        _d[1] *= 1.5;	//multiply by a constant factor
-        return "translate(" + _d + ")";
-      })
-      .attr("dy", ".50em")
-      .style("text-anchor", "middle")
-      .text(d => "");
+    var arcGenerator = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius)
+
+    svg
+        .selectAll('whatever')
+        .data(data_ready)
+        .enter()
+        .append('text')
+        .text(function(d) { return d.data.key })
+        .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
+        .style("text-anchor", "middle")
+        .style("font-size", 20)
+        .style("font-family", "Roboto, sans-serif")
+
+
 }
 
 function renderData(data) {
@@ -81,7 +87,7 @@ function renderData(data) {
 
         let cellColorPanel = document.createElement("div")
         cellColorPanel.setAttribute("class", "cellColorPanel")
-        cellColorPanel.style.backgroundColor = convertArrToRGB(cellColors[property])
+        cellColorPanel.style.backgroundImage = `url(./images/${property}.png)` //cellImages[property]
 
         let textInfo = document.createElement("label")
         textInfo.setAttribute("class", "cellInfo")
