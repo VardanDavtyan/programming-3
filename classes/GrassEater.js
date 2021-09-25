@@ -49,7 +49,7 @@ class GrassEater extends LivingCreature {
         }
     }
 
-    eat() {
+    /*eat() {
         let emptyCells = this.chooseCell(1, 6)
         let newCell = random(emptyCells)
         if (newCell) {
@@ -77,6 +77,44 @@ class GrassEater extends LivingCreature {
             this.x = newX
             this.y = newY
             this.mul()
+        } else {
+            this.move()
+        }
+    }*/
+
+    eat() {
+        let emptyCells = this.chooseCell(1, 6)
+        let newCell = random(emptyCells)
+        if (newCell) {
+            var newX = newCell[0];
+            var newY = newCell[1];
+            if (matrix[newY][newX] == 1) {
+                this.energy += this.energyEatGrassModifier
+                for (let i in grassArr) {
+                    if (newX == grassArr[i].x && newY == grassArr[i].y) {
+                        grassArr.splice(i, 1);
+                        break;
+                    }
+                }
+                matrix[this.y][this.x] = 0
+                matrix[newY][newX] = this.index
+                this.x = newX
+                this.y = newY
+                this.mul()
+            } else if (matrix[newY][newX] == 6 && this.energy >= 5) {
+                this.energy += this.energyEatMutantModifier
+                for (let i in mutantArr) {
+                    if (newX == mutantArr[i].x && newY == mutantArr[i].y) {
+                        mutantArr.splice(i, 1);
+                        break;
+                    }
+                }
+                matrix[this.y][this.x] = 0
+                matrix[newY][newX] = this.index
+                this.x = newX
+                this.y = newY
+                this.mul()
+            }
         } else {
             this.move()
         }
