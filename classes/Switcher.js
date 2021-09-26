@@ -43,7 +43,7 @@ class Switcher extends LivingCreature {
             var X = randomCell[0]
             var Y = randomCell[1]
 
-            let randomCharacter = random([1, 2, 3, 6])
+            let randomCharacter = random([1, 1, 1, 2, 3, 6, 6])
             switch (randomCharacter) {
                 case 1:
                     var newGrass = new Grass(X, Y, 1, cellSettings.grass.multiplyModifier, cellSettings.grass.maxMultiply)
