@@ -45,6 +45,10 @@ function renderDiagram(data) {
         .value(function(d) { return d.value; })
     var data_ready = pie(d3.entries(data))
 
+    var arcGenerator = d3.arc()
+    .innerRadius(0)
+    .outerRadius(radius)
+
     // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
     svg
         .selectAll('whatever')
@@ -59,10 +63,6 @@ function renderDiagram(data) {
         .attr("stroke", "black")
         .style("stroke-width", "2px")
         .style("opacity", 0.7)
-
-    var arcGenerator = d3.arc()
-        .innerRadius(0)
-        .outerRadius(radius)
 
     svg
         .selectAll('whatever')

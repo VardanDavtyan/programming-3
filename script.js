@@ -1,6 +1,6 @@
 let matrix = [];
 let length = 30 //35;
-let side = 35 //27.5;
+let side = 30 //27.5;
 
 let grassArr = [];
 let grassEaterArr = [];
