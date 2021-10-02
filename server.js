@@ -157,6 +157,73 @@ function removeFromMatrix(cellIndex) {
   io.sockets.emit("send matrix", { matrix: matrix, cellColors: cellColors });
 }
 
+function startTsunami() {
+
+  let directions = []
+  let randomAxis = random(["horizontal", "vertical"])
+
+  if (randomAxis == "horizontal") {
+    let randomX = Math.floor(Math.random() * matrix[0].length)
+    for (let y = 0; y < matrix.length; y++) {
+      if (randomX - 2 >= 0 && randomX - 2 < matrix[0].length) {
+        directions.push([randomX - 2, y])
+      }
+      if (randomX - 1 >= 0 && randomX - 1 < matrix[0].length) {
+        directions.push([randomX - 1, y])
+      }
+      if (randomX >= 0 && randomX < matrix[0].length) {
+        directions.push([randomX, y])
+      }
+      if (randomX + 1 >= 0 && randomX + 1 < matrix[0].length) {
+        directions.push([randomX + 1, y])
+      }
+      if (randomX + 2 >= 0 && randomX + 2 < matrix[0].length) {
+        directions.push([randomX + 2, y])
+      }
+    }
+  } else {
+    let randomY = Math.floor(Math.random() * length)
+    if (randomY - 2 >= 0 && randomY - 2 < matrix.length) {
+      for (let x = 0; x < matrix[randomY - 2].length; x++) {
+        directions.push([x, randomY - 2])
+      }
+    }
+    if (randomY - 1 >= 0 && randomY - 1 < matrix.length) {
+      for (let x = 0; x < matrix[randomY - 1].length; x++) {
+        directions.push([x, randomY - 1])
+      }
+    }
+    if (randomY >= 0 && randomY < matrix.length) {
+      for (let x = 0; x < matrix[randomY].length; x++) {
+        directions.push([x, randomY])
+      }
+    }
+    if (randomY + 1 >= 0 && randomY + 1 < matrix.length) {
+      for (let x = 0; x < matrix[randomY + 1].length; x++) {
+        directions.push([x, randomY + 1])
+      }
+    }
+    if (randomY + 2 >= 0 && randomY + 2 < matrix.length) {
+      for (let x = 0; x < matrix[randomY + 2].length; x++) {
+        directions.push([x, randomY + 2])
+      }
+    }
+
+  }
+
+  let all = [...grassArr, ...grassEaterArr, ...predatorArr, ...mutantArr]
+  for (let i = 0; i < directions.length; i++) {
+    let posX = directions[i][0]
+    let posY = directions[i][1]
+    for (let j in all) {
+      if (posX == all[j].x && posY == all[j].y) {
+        all[j].die()
+      }
+    }
+  }
+  io.sockets.emit("send matrix", { matrix: matrix, cellColors: cellColors });
+}
+
 function restartGame() {
   matrix = [];
 
@@ -193,6 +260,7 @@ io.on("connection", function (socket) {
     dataSendingInterval = setInterval(sendData, maxFrameRate);
   });
 
+  socket.on("start tsunami", () => startTsunami())
   socket.on("remove grass", () => removeFromMatrix(1));
   socket.on("remove grassEater", () => removeFromMatrix(2));
   socket.on("remove predator", () => removeFromMatrix(3));

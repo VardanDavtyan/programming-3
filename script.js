@@ -2,6 +2,8 @@ var socket = io();
 let side = 27.5;
 
 //events
+document.getElementById("tsunami").onclick = () => 
+  socket.emit("start tsunami")
 document.getElementById("grassRemoveButton").onclick = () =>
   socket.emit("remove grass");
 document.getElementById("grassEaterRemoveButton").onclick = () =>
