@@ -1,4 +1,6 @@
-class Bomber extends LivingCreature {
+let LivingCreature = require('./LivingCreature')
+
+module.exports = class Bomber extends LivingCreature {
 
     constructor(x, y, index, energy, minEnergyToExplosion, maxEnergyToExplosion) {
         super(x, y, index)
@@ -125,7 +127,7 @@ class Bomber extends LivingCreature {
 
     explosion() {
 
-        if (this.energy >= random(this.minEnergyToExplosion, this.maxEnergyToExplosion)) {
+        if (this.energy >= (this.minEnergyToExplosion + Math.random() * (this.maxEnergyToExplosion - this.minEnergyToExplosion))) {
 
             let all = [];
             all = all.concat(grassArr);

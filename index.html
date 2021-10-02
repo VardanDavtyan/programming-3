@@ -1,19 +1,13 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <title>Game of Life</title>
     <link rel="icon" href="https://image.flaticon.com/icons/png/512/1808/1808972.png">
     <link rel="stylesheet" href="style.css">
+    <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
     <script src="https://d3js.org/d3.v4.js"></script>
-
-    <script src="./classes/LivingCreature.js"></script>
-    <script src="./classes/Grass.js"></script>
-    <script src="./classes/GrassEater.js"></script>
-    <script src="./classes/Predator.js"></script>
-    <script src="./classes/Switcher.js"></script>
-    <script src="./classes/Bomber.js"></script>
-    <script src="./classes/Mutant.js"></script>
 </head>
 
 <body>
@@ -22,20 +16,21 @@
         </div>
         <div class="game-tools">
             <div>
-                <label>frame-rate:</label> <input type="range" id="fpsRate" min="0" max="30" value="15">
+                <label>frame-rate:</label> <input type="range" id="fpsRate" min="1" max="120" value="15">
             </div>
             <div class="buttons">
                 <button id="grassRemoveButton">remove grasses</button>
                 <button id="grassEaterRemoveButton">remove grass eaters</button>
                 <button id="predatorRemoveButton">remove predators</button>
                 <button id="mutantRemoveButton">remove mutants</button>
+                <button id="restartButton">reset game</button>
             </div>
             <div>
                 <label>weather:</label>
                 <select name="subject" id="weather-subject">
                     <option value="winter">winter</option>
-                    <option value="spring">spring</option>
-                    <option value="summer" selected="selected">summer</option>
+                    <option value="spring" selected>spring</option>
+                    <option value="summer">summer</option>
                     <option value="autumn">autumn</option>
                 </select>
             </div>

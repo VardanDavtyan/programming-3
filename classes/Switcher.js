@@ -1,4 +1,6 @@
-class Switcher extends LivingCreature {
+let LivingCreature = require('./LivingCreature')
+
+module.exports = class Switcher extends LivingCreature {
 
     constructor(x, y, index, minGenerateModifier, maxGenerateModifier) {
         super(x, y, index)
@@ -27,7 +29,7 @@ class Switcher extends LivingCreature {
             this.x = newX
             this.y = newY
             this.multiply++
-                if (this.multiply >= random(this.minGenerateModifier, this.maxGenerateModifier)) {
+                if (this.multiply >= (this.minGenerateModifier + Math.random() * (this.maxGenerateModifier - this.minGenerateModifier))) {
                     this.generate()
                 }
         }
@@ -61,7 +63,7 @@ class Switcher extends LivingCreature {
                     matrix[Y][X] = 3
                     break;
                 case 6:
-                    var newMutant = new Mutant(X, Y, 6, random(10, 30), cellSettings.mutant.energyMoveModifier, cellSettings.mutant.energyEatGrassModifier, cellSettings.mutant.energyEatPredatorModifier, cellSettings.mutant.maxEnergyToMultiply)
+                    var newMutant = new Mutant(X, Y, 6, 10 + Math.random() * 20, cellSettings.mutant.energyMoveModifier, cellSettings.mutant.energyEatGrassModifier, cellSettings.mutant.energyEatPredatorModifier, cellSettings.mutant.maxEnergyToMultiply)
                     mutantArr.push(newMutant)
                     matrix[Y][X] = 4
             }

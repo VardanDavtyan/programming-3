@@ -19,6 +19,7 @@
   "homepage": "https://github.com/VardanDavtyan/programming-3#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "p5": "^1.4.0",
     "socket.io": "^4.2.0"
   }
 }

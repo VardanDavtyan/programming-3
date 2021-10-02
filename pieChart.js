@@ -6,7 +6,7 @@ function convertArrToRGB(colorArr) {
     return colorText
 }
 
-function renderDiagram(data) {
+function renderDiagram(data, cellColors) {
 
     document.getElementById("my_dataviz").innerHTML = ""
 
@@ -78,7 +78,7 @@ function renderDiagram(data) {
 
 }
 
-function renderData(data) {
+function renderData(data, cellColors) {
 
     let statsPanel = document.getElementById("stats")
     statsPanel.innerHTML = ""
@@ -87,7 +87,7 @@ function renderData(data) {
 
         let cellColorPanel = document.createElement("div")
         cellColorPanel.setAttribute("class", "cellColorPanel")
-        cellColorPanel.style.backgroundImage = `url(./images/${property}.png)` //cellImages[property]
+        cellColorPanel.style.backgroundColor = convertArrToRGB(cellColors[property])//`url(./images/${property}.png)` //cellImages[property]
 
         let textInfo = document.createElement("label")
         textInfo.setAttribute("class", "cellInfo")
@@ -104,13 +104,3 @@ function renderData(data) {
     }
 
 }
-
-
-setInterval(() => {
-
-    var data = getStatistics()
-
-    renderDiagram(data)
-    renderData(data)
-
-}, maxFrameRate)

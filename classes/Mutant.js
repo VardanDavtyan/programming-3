@@ -123,7 +123,9 @@ class Mutant extends LivingCreature {
 */
 
 
-class Mutant extends LivingCreature {
+let LivingCreature = require('./LivingCreature')
+
+module.exports = class Mutant extends LivingCreature {
 
     setRandomAxis() {
         this.moveAxis = [random([-1, 0, 1]), random([-1, 0, 1])]
@@ -175,7 +177,7 @@ class Mutant extends LivingCreature {
             var newY = newCell[1];
             matrix[newY][newX] = this.index;
 
-            var newMutant = new Mutant(newX, newY, this.index, random(10, 30), this.energyMoveModifier, this.energyEatGrassModifier, this.energyEatPredatorModifier, this.maxEnergyToMultiply);
+            var newMutant = new Mutant(newX, newY, this.index, 10 + Math.random() * 20, this.energyMoveModifier, this.energyEatGrassModifier, this.energyEatPredatorModifier, this.maxEnergyToMultiply);
             mutantArr.push(newMutant);
         }
     }
